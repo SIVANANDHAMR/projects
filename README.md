@@ -24,8 +24,3 @@ How to run locally
    mvn clean package
    mvn spring-boot:run
 
-Download
-- Branch ZIP: https://github.com/SIVANANDHAMR/projects/archive/refs/heads/hrapp-scaffold.zip
-
-Include in your resume
-- Add a short description and the GitHub repo link. Add resume bullets from the project plan.

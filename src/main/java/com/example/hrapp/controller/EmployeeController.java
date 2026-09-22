@@ -2,6 +2,7 @@ package com.example.hrapp.controller;
 
 import com.example.hrapp.entity.Employee;
 import com.example.hrapp.repository.EmployeeRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class EmployeeController {
     public List<Employee> list() { return repo.findAll(); }
 
     @PostMapping
-    public Employee create(@RequestBody Employee e) { return repo.save(e); }
+    public Employee create(@Valid @RequestBody Employee e) { return repo.save(e); }
 
     @GetMapping("/{id}")
     public ResponseEntity<Employee> get(@PathVariable Long id) {
@@ -25,7 +26,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody Employee in) {
+    public ResponseEntity<Employee> update(@PathVariable Long id, @Valid @RequestBody Employee in) {
         return repo.findById(id).map(e -> {
             e.setFirstName(in.getFirstName());
             e.setLastName(in.getLastName());
@@ -36,5 +37,11 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) { repo.deleteById(id); }
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!repo.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        repo.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

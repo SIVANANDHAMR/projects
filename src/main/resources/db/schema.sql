@@ -3,6 +3,11 @@
 
 CREATE USER hr_app IDENTIFIED BY hr_password;
 GRANT CONNECT, RESOURCE, CREATE VIEW, CREATE PROCEDURE, CREATE SEQUENCE TO hr_app;
+ALTER USER hr_app QUOTA UNLIMITED ON USERS;
+
+-- The script is normally run as SYSTEM. Create application objects in HR_APP,
+-- not in SYSTEM, before running the statements below.
+ALTER SESSION SET CURRENT_SCHEMA = hr_app;
 
 -- Tables
 CREATE TABLE departments (

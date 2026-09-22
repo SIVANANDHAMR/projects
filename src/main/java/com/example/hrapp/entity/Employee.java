@@ -1,6 +1,13 @@
 package com.example.hrapp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -12,17 +19,28 @@ public class Employee {
     private Long empId;
 
     @Column(name = "first_name")
+    @NotBlank
+    @Size(max = 50)
     private String firstName;
 
     @Column(name = "last_name")
+    @NotBlank
+    @Size(max = 50)
     private String lastName;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
+    @Email
+    @Size(max = 100)
     private String email;
 
     @Column(name = "hire_date")
+    @PastOrPresent
     private LocalDate hireDate;
 
+    @NotNull
+    @PositiveOrZero
+    @Digits(integer = 10, fraction = 2)
     private Double salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
